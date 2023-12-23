@@ -14,7 +14,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Project {
+public class Classes {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -44,9 +44,11 @@ public class Project {
 
     private String description;
 
+    private String classroom;
+
     @OneToMany(mappedBy = "projectId", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Task> tasks = new ArrayList<>();
-    public Project(String errorMessage) {
+    private List<MemberStudent> memberStudents = new ArrayList<>();
+    public Classes(String errorMessage) {
         this.name = errorMessage;
     }
 

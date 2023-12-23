@@ -38,9 +38,13 @@ public class Account {
 
     private String address;
 
+    private String religion;
+
     private Date birth;
 
     private Long status;
+
+    private boolean isSetPee = true;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
@@ -51,7 +55,7 @@ public class Account {
     }
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "accountId", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Project> projects;
+    private Set<Classes> aClasses;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "accountId", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<LOP10> lop10;
@@ -61,4 +65,8 @@ public class Account {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "accountId", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<LOP12> lop12;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "accountId", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Family> families;
+
 }

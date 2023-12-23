@@ -1,6 +1,6 @@
 package com.example.demo.dto;
 
-public class ProjectDTO {
+public class ClassesDTO {
 
     private Integer accountId;
 

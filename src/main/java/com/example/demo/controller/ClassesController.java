@@ -1,9 +1,9 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.ProjectDTO;
+import com.example.demo.dto.ClassesDTO;
 import com.example.demo.entity.ErrorMessage;
-import com.example.demo.entity.Project;
-import com.example.demo.repo.ProjectRepo;
+import com.example.demo.entity.Classes;
+import com.example.demo.repo.ClassesRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,14 +16,14 @@ import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "*")
-public class ProjectController {
+public class ClassesController {
     @Autowired
-    private ProjectRepo projectsRepo;
+    private ClassesRepo projectsRepo;
 
     @GetMapping("/getAllProjects")
-    public ResponseEntity<List<Project>> getAllProjects() {
+    public ResponseEntity<List<Classes>> getAllProjects() {
         try {
-            List<Project> projectsList = new ArrayList<>();
+            List<Classes> projectsList = new ArrayList<>();
             projectsRepo.findAll().forEach(projectsList::add);
             if(projectsList.isEmpty()) {
                 return new ResponseEntity<>( HttpStatus.NO_CONTENT);
@@ -35,8 +35,8 @@ public class ProjectController {
     }
 
     @GetMapping("/getProjectById/{id}")
-    public ResponseEntity<Project> getProjectById(@PathVariable Long id) {
-        Optional<Project> projectData = projectsRepo.findById(id);
+    public ResponseEntity<Classes> getProjectById(@PathVariable Long id) {
+        Optional<Classes> projectData = projectsRepo.findById(id);
 
         if (projectData.isPresent()) {
             return new ResponseEntity<>(projectData.get(), HttpStatus.OK);
@@ -46,7 +46,7 @@ public class ProjectController {
     }
 
     @PostMapping("/addProject")
-    public ResponseEntity<?>  addProject(@RequestBody Project projects) {
+    public ResponseEntity<?>  addProject(@RequestBody Classes projects) {
             if (projects.getAccountId() == null) {
             ErrorMessage errorMessage = new ErrorMessage("AccountId cannot be null");
             return new ResponseEntity<>(errorMessage, HttpStatus.BAD_GATEWAY);
@@ -59,69 +59,69 @@ public class ProjectController {
             ErrorMessage errorMessage = new ErrorMessage("Status cannot be null");
             return new ResponseEntity<>(errorMessage, HttpStatus.BAD_GATEWAY);
         }
-        Project projectObj = projectsRepo.save(projects);
-        return new ResponseEntity<>(projectObj, HttpStatus.OK);
+        Classes classesObj = projectsRepo.save(projects);
+        return new ResponseEntity<>(classesObj, HttpStatus.OK);
     }
 
     @PutMapping("/updateProjectById/{id}")
-    public ResponseEntity<?> updateProjectById(@PathVariable Long id, @RequestBody Project newProjectData) {
-        Optional<Project> oldProjectDataOptional = projectsRepo.findById(id);
+    public ResponseEntity<?> updateProjectById(@PathVariable Long id, @RequestBody Classes newClassesData) {
+        Optional<Classes> oldProjectDataOptional = projectsRepo.findById(id);
 
         if (oldProjectDataOptional.isPresent()) {
-            Project oldProjectData = oldProjectDataOptional.get();
+            Classes oldClassesData = oldProjectDataOptional.get();
 
-            if (newProjectData.getAccountId() == null) {
+            if (newClassesData.getAccountId() == null) {
                 ErrorMessage errorMessage = new ErrorMessage("AccountId cannot be null");
                 return new ResponseEntity<>(errorMessage, HttpStatus.BAD_GATEWAY);
             }
 
-            if (newProjectData.getName() == null || newProjectData.getName().trim().isEmpty()) {
+            if (newClassesData.getName() == null || newClassesData.getName().trim().isEmpty()) {
                 ErrorMessage errorMessage = new ErrorMessage("Name cannot be null");
                 return new ResponseEntity<>(errorMessage, HttpStatus.NO_CONTENT);
             }
 
-            if (newProjectData.getStatus() == null || newProjectData.getStatus().isBlank()) {
+            if (newClassesData.getStatus() == null || newClassesData.getStatus().isBlank()) {
                 ErrorMessage errorMessage = new ErrorMessage("Status cannot be null or empty");
                 return new ResponseEntity<>(errorMessage, HttpStatus.BAD_GATEWAY);
             }
 
-            if (newProjectData.getName() != null) {
-                oldProjectData.setName(newProjectData.getName());
+            if (newClassesData.getName() != null) {
+                oldClassesData.setName(newClassesData.getName());
             }
 
-            if (newProjectData.getStartDate() != null) {
-                oldProjectData.setStartDate(newProjectData.getStartDate());
+            if (newClassesData.getStartDate() != null) {
+                oldClassesData.setStartDate(newClassesData.getStartDate());
             }
 
-            if (newProjectData.getEndDate() != null) {
-                oldProjectData.setEndDate(newProjectData.getEndDate());
+            if (newClassesData.getEndDate() != null) {
+                oldClassesData.setEndDate(newClassesData.getEndDate());
             }
 
-            if (newProjectData.getNote() != null) {
-                oldProjectData.setNote(newProjectData.getNote());
+            if (newClassesData.getNote() != null) {
+                oldClassesData.setNote(newClassesData.getNote());
             }
 
-            if (newProjectData.getStatus() != null) {
-                oldProjectData.setStatus(newProjectData.getStatus());
+            if (newClassesData.getStatus() != null) {
+                oldClassesData.setStatus(newClassesData.getStatus());
             }
 
-            if (newProjectData.getDescription() != null) {
-                oldProjectData.setDescription(newProjectData.getDescription());
+            if (newClassesData.getDescription() != null) {
+                oldClassesData.setDescription(newClassesData.getDescription());
             }
 
-            if (newProjectData.getCreatedBy() != null) {
-                oldProjectData.setCreatedBy(newProjectData.getCreatedBy());
+            if (newClassesData.getCreatedBy() != null) {
+                oldClassesData.setCreatedBy(newClassesData.getCreatedBy());
             }
 
-            if (newProjectData.getAccountId() != null) {
-                oldProjectData.setAccountId(newProjectData.getAccountId());
+            if (newClassesData.getAccountId() != null) {
+                oldClassesData.setAccountId(newClassesData.getAccountId());
             }
 
-            oldProjectData.setUpdatedAt(new Date());
+            oldClassesData.setUpdatedAt(new Date());
 
-            Project updatedProjectData = projectsRepo.save(oldProjectData);
+            Classes updatedClassesData = projectsRepo.save(oldClassesData);
 
-            return new ResponseEntity<>(updatedProjectData, HttpStatus.OK);
+            return new ResponseEntity<>(updatedClassesData, HttpStatus.OK);
         }
 
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -136,7 +136,7 @@ public class ProjectController {
 
     @GetMapping("/getProjectsByAccountId/{accountId}")
     public ResponseEntity<?> getProjectsByAccountId(@PathVariable Integer accountId) {
-        List<Project> projectsData = projectsRepo.findByAccountId(accountId);
+        List<Classes> projectsData = projectsRepo.findByAccountId(accountId);
 
         if (!projectsData.isEmpty()) {
             return new ResponseEntity<>(projectsData, HttpStatus.OK);
@@ -146,7 +146,7 @@ public class ProjectController {
     }
 
     @PostMapping("/search")
-    public List<Project> search(@RequestBody ProjectDTO dto) {
+    public List<Classes> search(@RequestBody ClassesDTO dto) {
         return projectsRepo.searchProjects(dto.getAccountId(), dto.getName());
     }
 }

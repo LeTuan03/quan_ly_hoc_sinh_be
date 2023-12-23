@@ -12,7 +12,7 @@ import java.util.Date;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Task {
+public class MemberStudent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -21,7 +21,7 @@ public class Task {
     private String taskName;
 
     @Temporal(TemporalType.TIMESTAMP)
-    private Date dueDate;
+    private Date endDate;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date startDate;

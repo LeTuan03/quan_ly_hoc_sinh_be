@@ -21,7 +21,6 @@ public class AccountController {
     @Autowired
     private AccountRepo accountsRepo;
 
-
     @GetMapping("/getAllAccounts")
     public ResponseEntity<List<Account>> getAllAccounts() {
         try {
@@ -174,6 +173,12 @@ public class AccountController {
     public ResponseEntity<List<Account>> searchAcc(@RequestParam("query") String query){
         List<Account> projects = accountsRepo.searchAcc(query);
         return new ResponseEntity<>(projects, HttpStatus.OK);
+    }
+
+    @GetMapping("/searchAccStudent")
+    public ResponseEntity<List<Account>> searchAccounts(@RequestParam String query, @RequestParam String role) {
+        List<Account> accounts = accountsRepo.searchAccRoleStudent(query, role);
+        return new ResponseEntity<>(accounts, HttpStatus.OK);
     }
 
     @GetMapping("/getMember/{role}")
