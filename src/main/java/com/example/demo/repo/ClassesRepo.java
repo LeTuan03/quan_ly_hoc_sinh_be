@@ -13,4 +13,11 @@ public interface ClassesRepo extends JpaRepository<Classes, Long> {
     @Query("SELECT p FROM Classes p WHERE p.accountId = :accountId AND p.name LIKE %:name%")
     List<Classes> searchProjects(@Param("accountId") Integer accountId,
                                  @Param("name") String name);
+
+    @Query("SELECT c FROM Classes c WHERE " +
+            "c.name LIKE CONCAT('%', :query, '%') " +
+            "AND (:accountId IS NULL OR c.accountId = :accountId)")
+    List<Classes> searchByName(@Param("query") String query, @Param("accountId") Integer accountId);
+
 }
+

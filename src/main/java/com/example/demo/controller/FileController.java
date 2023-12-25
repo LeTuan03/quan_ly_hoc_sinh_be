@@ -41,15 +41,6 @@ public class FileController {
             return ResponseEntity.notFound().build();
         }
     }
-//    @GetMapping("/{id}/image")
-//    public ResponseEntity<byte[]> getImage(@PathVariable Long id) {
-//        FileEntity fileEntity = fileService.getFile(id);
-//
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setContentType(MediaType.IMAGE_JPEG); // Đặt loại content type tương ứng với định dạng ảnh của bạn
-//
-//        return new ResponseEntity<>(fileEntity.getData(), headers, HttpStatus.OK);
-//    }
 
     @GetMapping("/{id}/image")
     public ResponseEntity<byte[]> getImage(@PathVariable Long id) {
@@ -63,5 +54,18 @@ public class FileController {
         headers.setContentType(MediaType.IMAGE_JPEG);
 
         return new ResponseEntity<>(fileEntity.getData(), headers, HttpStatus.OK);
+    }
+
+    @GetMapping("/image/{id}")
+    public ResponseEntity<byte[]> getImageById(@PathVariable Long id) {
+        FileEntity fileEntity = fileService.getFile(id);
+
+        if (fileEntity == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok()
+                .header("Content-Disposition", "inline; filename=" + fileEntity.getFileName())
+                .body(fileEntity.getData());
     }
 }

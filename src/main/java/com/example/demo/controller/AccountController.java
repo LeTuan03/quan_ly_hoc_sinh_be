@@ -175,7 +175,7 @@ public class AccountController {
         return new ResponseEntity<>(projects, HttpStatus.OK);
     }
 
-    @GetMapping("/searchAccStudent")
+    @GetMapping("/searchAccTeacher")
     public ResponseEntity<List<Account>> searchAccounts(@RequestParam String query, @RequestParam String role) {
         List<Account> accounts = accountsRepo.searchAccRoleStudent(query, role);
         return new ResponseEntity<>(accounts, HttpStatus.OK);

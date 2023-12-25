@@ -149,4 +149,12 @@ public class ClassesController {
     public List<Classes> search(@RequestBody ClassesDTO dto) {
         return projectsRepo.searchProjects(dto.getAccountId(), dto.getName());
     }
+
+    @GetMapping("/searchClasses")
+    public ResponseEntity<List<Classes>> searchAccounts(
+            @RequestParam String query,
+            @RequestParam(required = false) Integer accountId) {
+        List<Classes> classes = projectsRepo.searchByName(query, accountId);
+        return new ResponseEntity<>(classes, HttpStatus.OK);
+    }
 }
