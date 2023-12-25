@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.AvatarDto;
 import com.example.demo.entity.FileEntity;
 import com.example.demo.services.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -20,9 +23,9 @@ public class FileController {
     private FileService fileService;
 
     @PostMapping("/upload")
-    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("accountId") Integer accountId) {
         try {
-            fileService.storeFile(file);
+            fileService.storeFile(file, accountId);
             return ResponseEntity.ok("File uploaded successfully!");
         } catch (IOException e) {
             return ResponseEntity.status(500).body("Error uploading file.");
@@ -67,5 +70,20 @@ public class FileController {
         return ResponseEntity.ok()
                 .header("Content-Disposition", "inline; filename=" + fileEntity.getFileName())
                 .body(fileEntity.getData());
+    }
+
+    @GetMapping("/avatar/{accountId}")
+    public ResponseEntity<byte[]> getAvatarByAccountId(@PathVariable Integer accountId) {
+        AvatarDto avatarDto = fileService.getAvatarByAccountId(accountId);
+
+        if (avatarDto == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.IMAGE_JPEG);
+        headers.setContentLength(avatarDto.getData().length);
+
+        return new ResponseEntity<>(avatarDto.getData(), headers, HttpStatus.OK);
     }
 }

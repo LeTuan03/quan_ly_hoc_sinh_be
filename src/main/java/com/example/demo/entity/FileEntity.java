@@ -1,6 +1,9 @@
 package com.example.demo.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
+import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
 @Table(name = "files")
@@ -11,8 +14,15 @@ public class FileEntity {
 
     private String fileName;
 
+    @NotNull(message = "AccountId cannot be null")
+    private Integer accountId;
+
+    @CreationTimestamp
+    @Column(name = "created_date")
+    private LocalDateTime createdDate;
     @Lob
     private byte[] data;
+
     public void setFileName(String fileName) {
         this.fileName = fileName;
     }
@@ -27,5 +37,13 @@ public class FileEntity {
 
     public byte[] getData() {
         return data;
+    }
+
+    public void setAccountId(Integer accountId) {
+        this.accountId = accountId;
+    }
+
+    public Integer getAccountId() {
+        return accountId;
     }
 }
