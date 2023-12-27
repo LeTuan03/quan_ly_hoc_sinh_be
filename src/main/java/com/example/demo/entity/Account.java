@@ -44,8 +44,6 @@ public class Account {
 
     private Long status;
 
-    private boolean isSetPee = true;
-
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
 
@@ -55,7 +53,7 @@ public class Account {
     }
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "accountId", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Classes> aClasses;
+    private Set<Classes> classes;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "accountId", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<LOP10> lop10;

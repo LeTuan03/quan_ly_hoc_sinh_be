@@ -97,7 +97,7 @@ public class PeeController {
                 updatedPeeData.setHocPhi10(pee.getHocPhi10());
             }
             if (pee.getHocPhi11() != null) {
-                updatedPeeData.setHocPhi11(pee.getHocPhi10());
+                updatedPeeData.setHocPhi11(pee.getHocPhi11());
             }
             if (pee.getHocPhi12() != null) {
                 updatedPeeData.setHocPhi12(pee.getHocPhi12());

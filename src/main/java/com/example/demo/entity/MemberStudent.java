@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Entity
-@Table(name = "tbl_task")
+@Table(name = "tbl_member")
 @Setter
 @Getter
 @NoArgsConstructor

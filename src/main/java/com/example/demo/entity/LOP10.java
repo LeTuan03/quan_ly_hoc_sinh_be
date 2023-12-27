@@ -33,8 +33,6 @@ public class LOP10 {
     private String english;
     private String civicEducation;
     private String Conduct;
-    private String pee;
-    private Boolean isPee;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;

@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name = "tbl_project")
+@Table(name = "tbl_classes")
 @Setter
 @Getter
 @NoArgsConstructor
