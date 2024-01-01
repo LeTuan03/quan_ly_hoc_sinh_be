@@ -8,23 +8,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Optional;
 
 @Service
 public class FileService {
     @Autowired
     private FileRepo fileRepository;
-
-//    public FileEntity storeFile(MultipartFile file, Integer accountId) throws IOException {
-//        String fileName = file.getOriginalFilename();
-//        FileEntity fileEntity = new FileEntity();
-//        fileEntity.setFileName(fileName);
-//        fileEntity.setData(file.getBytes());
-//        fileEntity.setAccountId(accountId);
-//        return fileRepository.save(fileEntity);
-//    }
-
 
     public void storeFile(MultipartFile file, Integer accountId) throws IOException {
         Optional<FileEntity> existingFileEntity = fileRepository.findByAccountId(accountId);
@@ -45,13 +34,10 @@ public class FileService {
         }
     }
 
+
     public FileEntity getFile(Long fileId) {
         return fileRepository.findById(fileId).orElse(null);
     }
-
-//    public List<FileEntity> getFilesByAccountId(Integer accountId) {
-//        return fileRepository.findByAccountId(accountId);
-//    }
 
     public AvatarDto getAvatarByAccountId(Integer accountId) {
         Optional<FileEntity> fileEntityOptional = fileRepository.findTopByAccountIdOrderByCreatedDateDesc(accountId);

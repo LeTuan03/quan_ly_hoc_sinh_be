@@ -1,5 +1,6 @@
 package com.example.demo.entity;
 
+import com.example.demo.config.Constants;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,11 +22,11 @@ public class Family {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull(message = "AccountId cannot be null")
+    @NotNull(message = Constants.ID_MUST_NOT_EMPTY)
     private Integer accountId;
 
-    @NotNull(message = "Username cannot be null")
-    @Size(min = 1, message = "Username cannot be empty")
+    @NotNull(message = Constants.USERNAME_EMPTY)
+    @Size(min = 1, message = Constants.USERNAME_EMPTY)
     private String fullName;
 
     private String email;

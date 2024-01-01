@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.config.Constants;
 import com.example.demo.entity.ErrorMessage;
 import com.example.demo.entity.MemberStudent;
 import com.example.demo.repo.TaskRepo;
@@ -54,12 +55,12 @@ public class MemberStudentController {
     public ResponseEntity<?> addTask(@RequestBody MemberStudent memberStudent) {
 
         if (memberStudent.getProjectId() == null) {
-            ErrorMessage errorMessage = new ErrorMessage("Tên không được để trống");
+            ErrorMessage errorMessage = new ErrorMessage(Constants.USERNAME_EMPTY);
             return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
         }
 
         if (memberStudent.getTaskName() == null) {
-            ErrorMessage errorMessage = new ErrorMessage("Tên không được để trống");
+            ErrorMessage errorMessage = new ErrorMessage(Constants.USERNAME_EMPTY);
             return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
         }
 
@@ -67,48 +68,6 @@ public class MemberStudentController {
 
         return new ResponseEntity<>(memberStudentObj, HttpStatus.OK);
     }
-
-//    @PostMapping("/adds")
-//    public ResponseEntity<?> addTasks(@RequestBody List<MemberStudent> memberStudents) {
-//        List<MemberStudent> savedMemberStudents = new ArrayList<>();
-//
-//        try {
-//            for (MemberStudent memberStudent : memberStudents) {
-//                if (memberStudent.getProjectId() == null || memberStudent.getTaskName() == null) {
-//                    ErrorMessage errorMessage = new ErrorMessage("Ib lớp và mã học sinh không được để trống");
-//                    return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
-//                }
-//
-//                if (memberStudent.getId() != null) {
-//                    Optional<MemberStudent> existingTask = taskRepo.findById(memberStudent.getId());
-//
-//                    if (existingTask.isPresent()) {
-//                        MemberStudent updatedMemberStudent = existingTask.get();
-//                        updatedMemberStudent.setTaskName(memberStudent.getTaskName());
-//                        updatedMemberStudent.setProjectId(memberStudent.getProjectId());
-//                        updatedMemberStudent.setEndDate(memberStudent.getEndDate());
-//                        updatedMemberStudent.setStartDate(memberStudent.getStartDate());
-//                        updatedMemberStudent.setUserId(memberStudent.getUserId());
-//                        updatedMemberStudent.setUserName(memberStudent.getUserName());
-//                        updatedMemberStudent.setPercentComplete(memberStudent.getPercentComplete());
-//                        updatedMemberStudent.setProjectName(memberStudent.getProjectName());
-//                        updatedMemberStudent.setHomeroomTeacher(memberStudent.getHomeroomTeacher());
-//                        updatedMemberStudent.setNote(memberStudent.getNote());
-//                        updatedMemberStudent.setUpdatedAt(new Date());
-//
-//                        savedMemberStudents.add(taskRepo.save(updatedMemberStudent));
-//                        continue;
-//                    }
-//                }
-//
-//                savedMemberStudents.add(taskRepo.save(memberStudent));
-//            }
-//
-//            return new ResponseEntity<>(savedMemberStudents, HttpStatus.OK);
-//        } catch (Exception e) {
-//            return new ResponseEntity<>(new ErrorMessage("Có lỗi xảy ra"), HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-//    }
 
     @PostMapping("/adds")
     public ResponseEntity<?> addTasks(@RequestBody List<MemberStudent> memberStudents) {
@@ -119,13 +78,13 @@ public class MemberStudentController {
 
             for (MemberStudent memberStudent : memberStudents) {
                 if (memberStudent.getProjectId() == null || memberStudent.getTaskName() == null) {
-                    ErrorMessage errorMessage = new ErrorMessage("Ib lớp và mã học sinh không được để trống");
+                    ErrorMessage errorMessage = new ErrorMessage(Constants.ID_CLASS_AND_NAME_NOT_EMPTY);
                     return new ResponseEntity<>(errorMessage, HttpStatus.BAD_GATEWAY);
                 }
 
                 // Kiểm tra trùng userId
                 if (!userIdSet.add(memberStudent.getUserId())) {
-                    ErrorMessage errorMessage = new ErrorMessage("Tên học sinh bị trùng lặp trong danh sách.");
+                    ErrorMessage errorMessage = new ErrorMessage(Constants.STUDENT_IN_LIST);
                     return new ResponseEntity<>(errorMessage, HttpStatus.BAD_GATEWAY);
                 }
 
@@ -156,7 +115,7 @@ public class MemberStudentController {
 
             return new ResponseEntity<>(savedMemberStudents, HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>(new ErrorMessage("Có lỗi xảy ra"), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(new ErrorMessage(Constants.ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -171,12 +130,12 @@ public class MemberStudentController {
             MemberStudent updatedMemberStudentData = oldTask.get();
 
             if (memberStudent.getTaskName() == null) {
-                ErrorMessage errorMessage = new ErrorMessage("Tên học sinh không được để trống");
+                ErrorMessage errorMessage = new ErrorMessage(Constants.USERNAME_EMPTY);
                 return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
             }
 
             if (memberStudent.getProjectId() == null) {
-                ErrorMessage errorMessage = new ErrorMessage("Tên lớp không được để trống");
+                ErrorMessage errorMessage = new ErrorMessage(Constants.USERNAME_EMPTY);
                 return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
             }
 

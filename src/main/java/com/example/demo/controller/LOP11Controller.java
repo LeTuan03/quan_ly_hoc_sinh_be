@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.config.Constants;
 import com.example.demo.entity.ErrorMessage;
 import com.example.demo.entity.LOP11;
 import com.example.demo.repo.LOP11Repo;
@@ -47,7 +48,7 @@ public class LOP11Controller {
     @PostMapping("/add")
     public ResponseEntity<?>  addProject(@RequestBody LOP11 lop10) {
         if (lop10.getAccountId() == null) {
-            ErrorMessage errorMessage = new ErrorMessage("AccountId cannot be null");
+            ErrorMessage errorMessage = new ErrorMessage(Constants.ID_MUST_NOT_EMPTY);
             return new ResponseEntity<>(errorMessage, HttpStatus.BAD_GATEWAY);
         }
 
@@ -63,7 +64,7 @@ public class LOP11Controller {
             LOP11 oldProjectData = oldProjectDataOptional.get();
 
             if (newProjectData.getAccountId() == null) {
-                ErrorMessage errorMessage = new ErrorMessage("AccountId cannot be null");
+                ErrorMessage errorMessage = new ErrorMessage(Constants.ID_MUST_NOT_EMPTY);
                 return new ResponseEntity<>(errorMessage, HttpStatus.BAD_GATEWAY);
             }
 
@@ -140,7 +141,7 @@ public class LOP11Controller {
         if (!projectsData.isEmpty()) {
             return new ResponseEntity<>(projectsData, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>("There are currently no projects", HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(Constants.NO_INFO_POINT_11, HttpStatus.NO_CONTENT);
         }
     }
 

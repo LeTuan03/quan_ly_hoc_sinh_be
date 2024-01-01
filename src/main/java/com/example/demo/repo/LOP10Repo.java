@@ -8,7 +8,4 @@ import java.util.List;
 public interface LOP10Repo extends JpaRepository<LOP10, Long> {
     List<LOP10> findByAccountId(Integer accountId);
 
-//    @Query("SELECT p FROM Project p WHERE p.accountId = :accountId AND p.name LIKE %:name%")
-//    List<Project> searchProjects(@Param("accountId") Integer accountId,
-//                                 @Param("name") String name);
 }

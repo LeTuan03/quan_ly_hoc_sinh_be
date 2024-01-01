@@ -1,5 +1,6 @@
 package com.example.demo.entity;
 
+import com.example.demo.config.Constants;
 import lombok.*;
 
 import javax.persistence.*;
@@ -17,7 +18,7 @@ public class MemberStudent {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull(message = "TaskName cannot be null")
+    @NotNull(message = Constants.CLASS_NAME)
     private String taskName;
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -26,19 +27,19 @@ public class MemberStudent {
     @Temporal(TemporalType.TIMESTAMP)
     private Date startDate;
 
-    @NotNull(message = "ProjectId cannot be null")
+    @NotNull(message = Constants.ID_AND_NAME_NOT_EMPTY)
     private Integer projectId;
 
-    @NotNull(message = "Project name cannot be null")
+    @NotNull(message = Constants.CLASS_NAME)
     private String projectName;
 
-    @NotNull(message = "UserId cannot be null")
+    @NotNull(message = Constants.ID_MUST_NOT_EMPTY)
     private Long userId;
 
-    @NotNull(message = "User Name cannot be null")
+    @NotNull(message = Constants.USERNAME_EMPTY)
     private String userName;
 
-    @NotNull(message = "Homeroom teacher cannot be null")
+    @NotNull(message = Constants.HOMEROOM_TEACHER)
     private String homeroomTeacher;
 
     private String percentComplete;

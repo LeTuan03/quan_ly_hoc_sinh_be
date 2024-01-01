@@ -1,5 +1,6 @@
 package com.example.demo.entity;
 
+import com.example.demo.config.Constants;
 import lombok.*;
 
 import javax.persistence.*;
@@ -19,15 +20,15 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull(message = "Username cannot be null")
-    @Size(min = 1, message = "Username cannot be empty")
+    @NotNull(message = Constants.USERNAME_EMPTY)
+    @Size(min = 1, message = Constants.USERNAME_EMPTY)
     private String username;
 
-    @NotNull(message = "Password cannot be null")
-    @Size(min = 1, message = "Password cannot be empty")
+    @NotNull(message = Constants.PASS_NOT_EMPTY)
+    @Size(min = 1, message = Constants.PASS_NOT_EMPTY)
     private String password;
 
-    @NotNull(message = "Role cannot be null")
+    @NotNull(message = Constants.ROLE_NOT_EMPTY)
     private String role;
 
     private String email;

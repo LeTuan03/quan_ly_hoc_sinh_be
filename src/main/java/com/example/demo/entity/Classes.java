@@ -38,8 +38,6 @@ public class Classes {
 
     private Date updatedAt;
 
-    private String status;
-
     private String note;
 
     private String description;

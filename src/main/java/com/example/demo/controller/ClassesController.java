@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.config.Constants;
 import com.example.demo.dto.ClassesDTO;
 import com.example.demo.entity.ErrorMessage;
 import com.example.demo.entity.Classes;
@@ -48,16 +49,12 @@ public class ClassesController {
     @PostMapping("/addProject")
     public ResponseEntity<?>  addProject(@RequestBody Classes projects) {
             if (projects.getAccountId() == null) {
-            ErrorMessage errorMessage = new ErrorMessage("AccountId cannot be null");
+            ErrorMessage errorMessage = new ErrorMessage(Constants.ACCOUNT_ID_TEACHER_NOT_EMPTY);
             return new ResponseEntity<>(errorMessage, HttpStatus.BAD_GATEWAY);
         }
         if (projects.getName() == null || projects.getName().trim().isEmpty() ) {
-            ErrorMessage errorMessage = new ErrorMessage("Name cannot be null");
+            ErrorMessage errorMessage = new ErrorMessage(Constants.CLASS_NAME_NOT_EMPTY);
             return new ResponseEntity<>(errorMessage, HttpStatus.NO_CONTENT);
-        }
-        if (projects.getStatus() == null || projects.getStatus().isEmpty() ) {
-            ErrorMessage errorMessage = new ErrorMessage("Status cannot be null");
-            return new ResponseEntity<>(errorMessage, HttpStatus.BAD_GATEWAY);
         }
         Classes classesObj = projectsRepo.save(projects);
         return new ResponseEntity<>(classesObj, HttpStatus.OK);
@@ -71,18 +68,13 @@ public class ClassesController {
             Classes oldClassesData = oldProjectDataOptional.get();
 
             if (newClassesData.getAccountId() == null) {
-                ErrorMessage errorMessage = new ErrorMessage("AccountId cannot be null");
+                ErrorMessage errorMessage = new ErrorMessage(Constants.ACCOUNT_ID_TEACHER_NOT_EMPTY);
                 return new ResponseEntity<>(errorMessage, HttpStatus.BAD_GATEWAY);
             }
 
             if (newClassesData.getName() == null || newClassesData.getName().trim().isEmpty()) {
-                ErrorMessage errorMessage = new ErrorMessage("Name cannot be null");
+                ErrorMessage errorMessage = new ErrorMessage(Constants.CLASS_NAME_NOT_EMPTY);
                 return new ResponseEntity<>(errorMessage, HttpStatus.NO_CONTENT);
-            }
-
-            if (newClassesData.getStatus() == null || newClassesData.getStatus().isBlank()) {
-                ErrorMessage errorMessage = new ErrorMessage("Status cannot be null or empty");
-                return new ResponseEntity<>(errorMessage, HttpStatus.BAD_GATEWAY);
             }
 
             if (newClassesData.getName() != null) {
@@ -99,10 +91,6 @@ public class ClassesController {
 
             if (newClassesData.getNote() != null) {
                 oldClassesData.setNote(newClassesData.getNote());
-            }
-
-            if (newClassesData.getStatus() != null) {
-                oldClassesData.setStatus(newClassesData.getStatus());
             }
 
             if (newClassesData.getDescription() != null) {
@@ -141,7 +129,7 @@ public class ClassesController {
         if (!projectsData.isEmpty()) {
             return new ResponseEntity<>(projectsData, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>("There are currently no projects", HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(Constants.TEACHER_CURRENT_HAS_NOT_CLASS, HttpStatus.NO_CONTENT);
         }
     }
 

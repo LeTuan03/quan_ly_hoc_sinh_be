@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.config.Constants;
 import com.example.demo.entity.ErrorMessage;
 import com.example.demo.entity.LOP10;
 import com.example.demo.repo.LOP10Repo;
@@ -47,7 +48,7 @@ public class LOP10Controller {
     @PostMapping("/add")
     public ResponseEntity<?>  addProject(@RequestBody LOP10 lop10) {
             if (lop10.getAccountId() == null) {
-            ErrorMessage errorMessage = new ErrorMessage("AccountId cannot be null");
+            ErrorMessage errorMessage = new ErrorMessage(Constants.ID_MUST_NOT_EMPTY);
             return new ResponseEntity<>(errorMessage, HttpStatus.BAD_GATEWAY);
         }
 
@@ -63,7 +64,7 @@ public class LOP10Controller {
             LOP10 oldProjectData = oldProjectDataOptional.get();
 
             if (newProjectData.getAccountId() == null) {
-                ErrorMessage errorMessage = new ErrorMessage("AccountId cannot be null");
+                ErrorMessage errorMessage = new ErrorMessage(Constants.ID_MUST_NOT_EMPTY);
                 return new ResponseEntity<>(errorMessage, HttpStatus.BAD_GATEWAY);
             }
 
@@ -141,12 +142,8 @@ public class LOP10Controller {
         if (!projectsData.isEmpty()) {
             return new ResponseEntity<>(projectsData, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>("There are currently no projects", HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(Constants.NO_INFO_POINT_10, HttpStatus.NO_CONTENT);
         }
     }
 
-//    @PostMapping("/search")
-//    public List<Project> search(@RequestBody ProjectDTO dto) {
-//        return lop10Repo.searchProjects(dto.getAccountId(), dto.getName());
-//    }
 }

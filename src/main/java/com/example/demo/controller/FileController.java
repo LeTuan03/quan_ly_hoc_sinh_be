@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.dto.AvatarDto;
 import com.example.demo.entity.FileEntity;
+import com.example.demo.repo.AccountRepo;
 import com.example.demo.services.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -11,7 +12,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.sql.Blob;
+import java.sql.SQLException;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -19,7 +24,8 @@ import java.io.IOException;
 public class FileController {
     @Autowired
     private FileService fileService;
-
+    @Autowired
+    private AccountRepo accountsRepo;
     @PostMapping("/upload")
     public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("accountId") Integer accountId) {
         try {
@@ -84,4 +90,5 @@ public class FileController {
 
         return new ResponseEntity<>(avatarDto.getData(), headers, HttpStatus.OK);
     }
+
 }

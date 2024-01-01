@@ -1,11 +1,11 @@
 package com.example.demo.entity;
 
+import com.example.demo.config.Constants;
 import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
-import java.util.Set;
 
 @Entity
 @Table(name = "tbl_12")
@@ -18,7 +18,7 @@ public class LOP12 {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull(message = "AccountId cannot be null")
+    @NotNull(message = Constants.ID_MUST_NOT_EMPTY)
     private Integer accountId;
 
     private String maths;

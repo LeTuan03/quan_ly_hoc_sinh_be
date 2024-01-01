@@ -1,16 +1,20 @@
 package com.example.demo.controller;
 
+import com.example.demo.config.Constants;
 import com.example.demo.dto.AccountResponseDTO;
 import com.example.demo.dto.LoginRequest;
 import com.example.demo.entity.Account;
 import com.example.demo.entity.ErrorMessage;
 import com.example.demo.repo.AccountRepo;
+import com.example.demo.repo.PeeRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,6 +24,8 @@ public class AccountController {
 
     @Autowired
     private AccountRepo accountsRepo;
+    @Autowired
+    private PeeRepo peeRepo;
 
     @GetMapping("/getAllAccounts")
     public ResponseEntity<List<Account>> getAllAccounts() {
@@ -70,24 +76,26 @@ public class AccountController {
     public ResponseEntity<?>  addAccount(@RequestBody Account accounts) {
 
         if (accounts.getRole() == null) {
-            ErrorMessage errorMessage = new ErrorMessage("Role cannot be null");
+            ErrorMessage errorMessage = new ErrorMessage(Constants.ROLE_NOT_EMPTY);
             return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
         }
 
         if (accounts.getUsername() == null) {
-            ErrorMessage errorMessage = new ErrorMessage("Username cannot be null");
+            ErrorMessage errorMessage = new ErrorMessage(Constants.USERNAME_EMPTY);
             return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
         }
 
         if (accounts.getPassword() == null) {
-            ErrorMessage errorMessage = new ErrorMessage("Password cannot be null");
+            ErrorMessage errorMessage = new ErrorMessage(Constants.PASS_NOT_EMPTY);
             return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
         }
 
         if (accountsRepo.existsByUsername(accounts.getUsername())) {
-            ErrorMessage errorMessage = new ErrorMessage("Username is already taken");
+            ErrorMessage errorMessage = new ErrorMessage(Constants.USERNAME_HAD_TAKEN);
             return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
         }
+
+        accounts.setCreatedAt(new Date());
 
         Account accountObj = accountsRepo.save(accounts);
 
@@ -135,8 +143,17 @@ public class AccountController {
 
 
     @DeleteMapping("/deleteAccountById/{id}")
+    @Transactional
     public ResponseEntity<HttpStatus> deleteAccountById(@PathVariable Long id) {
-        accountsRepo.deleteById(id);
+
+        try {
+            accountsRepo.deleteById(id);
+            peeRepo.deleteByAccountId(id);
+        }
+        catch (Exception ex) {
+            ex.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -145,11 +162,11 @@ public class AccountController {
         try {
 
             if (loginRequest.getUsername() == null) {
-                ErrorMessage errorMessage = new ErrorMessage("Username cannot be null");
+                ErrorMessage errorMessage = new ErrorMessage(Constants.USERNAME_EMPTY);
                 return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
             }
             if (loginRequest.getPassword() == null) {
-                ErrorMessage errorMessage = new ErrorMessage("Password cannot be null");
+                ErrorMessage errorMessage = new ErrorMessage(Constants.PASS_NOT_EMPTY);
                 return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
             }
 
@@ -161,7 +178,7 @@ public class AccountController {
             if (account != null) {
                 return new ResponseEntity<>(account, HttpStatus.OK);
             } else {
-                ErrorMessage errorMessage = new ErrorMessage("Account or password is incorrect!!");
+                ErrorMessage errorMessage = new ErrorMessage(Constants.USERNAME_OR_PASS_NOT_TRUE);
                 return new ResponseEntity<>(errorMessage, HttpStatus.UNAUTHORIZED);
             }
         } catch (Exception ex) {

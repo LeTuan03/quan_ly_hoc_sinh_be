@@ -8,4 +8,6 @@ import java.util.Optional;
 
 public interface PeeRepo extends JpaRepository<Pee, Long> {
     Optional<Pee> findByAccountId(Long accountId);
+
+    void deleteByAccountId(Long accountId);
 }

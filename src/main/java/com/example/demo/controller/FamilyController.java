@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.config.Constants;
 import com.example.demo.entity.ErrorMessage;
 import com.example.demo.entity.Family;
 import com.example.demo.repo.FamilyRepo;
@@ -24,11 +25,11 @@ public class FamilyController {
     public ResponseEntity<?> add(@RequestBody Family family) {
 
         if (family.getAccountId() == null) {
-            ErrorMessage errorMessage = new ErrorMessage("AccountId cannot be null");
+            ErrorMessage errorMessage = new ErrorMessage(Constants.ID_MUST_NOT_EMPTY);
             return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
         }
         if (family.getFullName() == null) {
-            ErrorMessage errorMessage = new ErrorMessage("Tên không được để trống");
+            ErrorMessage errorMessage = new ErrorMessage(Constants.USERNAME_EMPTY);
             return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
         }
 
@@ -43,7 +44,7 @@ public class FamilyController {
             List<Family> familyList = familyRepo.findByAccountId(id);
 
             if (familyList.isEmpty()) {
-                ErrorMessage errorMessage = new ErrorMessage("No families found for the given account ID");
+                ErrorMessage errorMessage = new ErrorMessage(Constants.NO_FAMILIES_FOUND_FOR_THE_ACCOUNT_ID);
                 return new ResponseEntity<>(errorMessage, HttpStatus.NO_CONTENT);
             }
             return new ResponseEntity<>(familyList, HttpStatus.OK);
@@ -105,7 +106,7 @@ public class FamilyController {
         try {
             for (Family memberStudent : memberStudents) {
                 if (memberStudent.getAccountId() == null || memberStudent.getFullName() == null) {
-                    ErrorMessage errorMessage = new ErrorMessage("Ib học sinh và tên không được để trống");
+                    ErrorMessage errorMessage = new ErrorMessage(Constants.ID_AND_NAME_NOT_EMPTY);
                     return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
                 }
 
@@ -151,7 +152,7 @@ public class FamilyController {
 
             return new ResponseEntity<>(savedMemberStudents, HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>(new ErrorMessage("Có lỗi xảy ra"), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(new ErrorMessage(Constants.ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

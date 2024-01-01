@@ -1,7 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.entity.Account;
-import com.example.demo.entity.ErrorMessage;
+import com.example.demo.config.Constants;
 import com.example.demo.entity.Pee;
 import com.example.demo.repo.PeeRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +41,7 @@ public class PeeController {
         if (accountData.isPresent()) {
             return new ResponseEntity<>(accountData.get(), HttpStatus.OK);
         }
-        return new ResponseEntity<>("Học sinh hiện tại không có thông tin học phí", HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(Constants.NO_INFO_PEE, HttpStatus.NOT_FOUND);
     }
 
     @GetMapping("/getByAccountId/{id}")
@@ -57,28 +56,6 @@ public class PeeController {
             }
 
             return new ResponseEntity<>(accountData.get(), HttpStatus.OK);
-
-        } catch (Exception ex) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-
-    @PostMapping
-    public ResponseEntity<?> createPee(@RequestBody Pee pee) {
-        try {
-
-            if (pee.getAccountId() == null) {
-                ErrorMessage errorMessage = new ErrorMessage("AccountId cannot be null");
-                return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
-            }
-            if (pee.getId() != null) {
-                ErrorMessage errorMessage = new ErrorMessage("Người dùng hiện tại không thể cập nhật thông tin học phí");
-                return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
-            }
-
-            Pee createdPee = peeRepo.save(pee);
-            return new ResponseEntity<>(createdPee, HttpStatus.OK);
 
         } catch (Exception ex) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

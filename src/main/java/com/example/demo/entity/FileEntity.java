@@ -3,6 +3,8 @@ package com.example.demo.entity;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+
+import com.example.demo.config.Constants;
 import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
@@ -14,7 +16,7 @@ public class FileEntity {
 
     private String fileName;
 
-    @NotNull(message = "AccountId cannot be null")
+    @NotNull(message = Constants.ID_MUST_NOT_EMPTY)
     private Integer accountId;
 
     @CreationTimestamp
