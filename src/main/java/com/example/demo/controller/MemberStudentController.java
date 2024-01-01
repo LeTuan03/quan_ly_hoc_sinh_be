@@ -59,7 +59,7 @@ public class MemberStudentController {
             return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
         }
 
-        if (memberStudent.getTaskName() == null) {
+        if (memberStudent.getCode() == null) {
             ErrorMessage errorMessage = new ErrorMessage(Constants.USERNAME_EMPTY);
             return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
         }
@@ -77,7 +77,7 @@ public class MemberStudentController {
             Set<Long> userIdSet = new HashSet<>(); // Sử dụng Set để lưu trữ các userId đã xuất hiện
 
             for (MemberStudent memberStudent : memberStudents) {
-                if (memberStudent.getProjectId() == null || memberStudent.getTaskName() == null) {
+                if (memberStudent.getProjectId() == null || memberStudent.getCode() == null) {
                     ErrorMessage errorMessage = new ErrorMessage(Constants.ID_CLASS_AND_NAME_NOT_EMPTY);
                     return new ResponseEntity<>(errorMessage, HttpStatus.BAD_GATEWAY);
                 }
@@ -93,13 +93,12 @@ public class MemberStudentController {
 
                     if (existingTask.isPresent()) {
                         MemberStudent updatedMemberStudent = existingTask.get();
-                        updatedMemberStudent.setTaskName(memberStudent.getTaskName());
+                        updatedMemberStudent.setCode(memberStudent.getCode());
                         updatedMemberStudent.setProjectId(memberStudent.getProjectId());
                         updatedMemberStudent.setEndDate(memberStudent.getEndDate());
                         updatedMemberStudent.setStartDate(memberStudent.getStartDate());
                         updatedMemberStudent.setUserId(memberStudent.getUserId());
                         updatedMemberStudent.setUserName(memberStudent.getUserName());
-                        updatedMemberStudent.setPercentComplete(memberStudent.getPercentComplete());
                         updatedMemberStudent.setProjectName(memberStudent.getProjectName());
                         updatedMemberStudent.setHomeroomTeacher(memberStudent.getHomeroomTeacher());
                         updatedMemberStudent.setNote(memberStudent.getNote());
@@ -129,7 +128,7 @@ public class MemberStudentController {
         if (oldTask.isPresent()) {
             MemberStudent updatedMemberStudentData = oldTask.get();
 
-            if (memberStudent.getTaskName() == null) {
+            if (memberStudent.getCode() == null) {
                 ErrorMessage errorMessage = new ErrorMessage(Constants.USERNAME_EMPTY);
                 return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
             }
@@ -139,14 +138,13 @@ public class MemberStudentController {
                 return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
             }
 
-            updatedMemberStudentData.setTaskName(memberStudent.getTaskName());
+            updatedMemberStudentData.setCode(memberStudent.getCode());
             updatedMemberStudentData.setProjectId(memberStudent.getProjectId());
             updatedMemberStudentData.setEndDate(memberStudent.getEndDate());
             updatedMemberStudentData.setNote(memberStudent.getNote());
             updatedMemberStudentData.setStartDate(memberStudent.getStartDate());
             updatedMemberStudentData.setProjectName(memberStudent.getProjectName());
             updatedMemberStudentData.setHomeroomTeacher(memberStudent.getHomeroomTeacher());
-            updatedMemberStudentData.setPercentComplete(memberStudent.getPercentComplete());
 
             MemberStudent memberStudentObj = taskRepo.save(updatedMemberStudentData);
             return new ResponseEntity<>(memberStudentObj, HttpStatus.OK);

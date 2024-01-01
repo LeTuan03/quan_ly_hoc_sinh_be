@@ -20,5 +20,6 @@ public class Constants {
     public static final String NO_INFO_POINT_12 = "Không có thông tin điểm cho lớp 12";
     public static final String HOMEROOM_TEACHER = "Tên giáo viên không được để trống";
     public static final String CLASS_NAME = "Tên lớp học không được để trống";
+    public static final String CODE = "Mã học sinh không được để trống";
     public static final String ERROR = "Có lỗi xảy ra";
 }

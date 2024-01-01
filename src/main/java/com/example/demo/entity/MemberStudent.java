@@ -18,8 +18,8 @@ public class MemberStudent {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull(message = Constants.CLASS_NAME)
-    private String taskName;
+    @NotNull(message = Constants.CODE)
+    private String code;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date endDate;
@@ -41,8 +41,6 @@ public class MemberStudent {
 
     @NotNull(message = Constants.HOMEROOM_TEACHER)
     private String homeroomTeacher;
-
-    private String percentComplete;
 
     private String note;
 
