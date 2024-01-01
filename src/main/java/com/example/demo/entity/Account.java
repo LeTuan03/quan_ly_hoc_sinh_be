@@ -45,13 +45,7 @@ public class Account {
 
     private Long status;
 
-    @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
-
-    @PrePersist
-    protected void onCreate() {
-        this.createdAt = new Date();
-    }
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "accountId", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Classes> classes;

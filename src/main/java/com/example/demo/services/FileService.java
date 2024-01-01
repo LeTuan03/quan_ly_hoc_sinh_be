@@ -35,10 +35,6 @@ public class FileService {
     }
 
 
-    public FileEntity getFile(Long fileId) {
-        return fileRepository.findById(fileId).orElse(null);
-    }
-
     public AvatarDto getAvatarByAccountId(Integer accountId) {
         Optional<FileEntity> fileEntityOptional = fileRepository.findTopByAccountIdOrderByCreatedDateDesc(accountId);
 
