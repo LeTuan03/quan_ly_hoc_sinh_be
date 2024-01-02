@@ -1,8 +1,6 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.AvatarDto;
-import com.example.demo.entity.FileEntity;
-import com.example.demo.repo.AccountRepo;
 import com.example.demo.services.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
