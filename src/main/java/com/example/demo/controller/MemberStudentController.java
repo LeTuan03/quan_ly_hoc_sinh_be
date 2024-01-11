@@ -74,6 +74,7 @@ public class MemberStudentController {
 
         try {
             Set<Long> userIdSet = new HashSet<>(); // Sử dụng Set để lưu trữ các userId đã xuất hiện
+            Set<String> userCodeSet = new HashSet<>(); // Sử dụng Set để lưu trữ các mã code học đã xuất hiện
 
             for (com.example.demo.entity.MemberStudent memberStudent : memberStudents) {
 
@@ -94,7 +95,12 @@ public class MemberStudentController {
 
                 // Kiểm tra trùng userId
                 if (!userIdSet.add(memberStudent.getUserId())) {
-                    ErrorMessage errorMessage = new ErrorMessage(Constants.STUDENT_IN_LIST);
+                    ErrorMessage errorMessage = new ErrorMessage(memberStudent.getUserName() + Constants.STUDENT_IN_LIST);
+                    return new ResponseEntity<>(errorMessage, HttpStatus.BAD_GATEWAY);
+                }
+                // Kiểm tra trùng mã học sinh
+                if (!userCodeSet.add(memberStudent.getCode())) {
+                    ErrorMessage errorMessage = new ErrorMessage(Constants.CODE_IN_LIST);
                     return new ResponseEntity<>(errorMessage, HttpStatus.BAD_GATEWAY);
                 }
 

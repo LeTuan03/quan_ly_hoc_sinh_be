@@ -15,7 +15,8 @@ public class Constants {
     public static final String CODE_NOT_EMPTY = "Mã học sinh không được để trống";
     public static final String NAME_NOT_EMPTY = "Tên học sinh không được để trống";
     public static final String ID_CLASS_NOT_EMPTY = "Lớp không được để trống";
-    public static final String STUDENT_IN_LIST = "Tên học sinh bị trùng lặp trong danh sách.";
+    public static final String STUDENT_IN_LIST = " đã có trong danh sách.";
+    public static final String CODE_IN_LIST = "Mã học sinh bị trùng trong danh sách.";
     public static final String NO_INFO_PEE = "Học sinh hiện tại không có thông tin học phí";
     public static final String NO_INFO_POINT_10 = "Không có thông tin điểm cho lớp 10";
     public static final String NO_INFO_POINT_11 = "Không có thông tin điểm cho lớp 11";
