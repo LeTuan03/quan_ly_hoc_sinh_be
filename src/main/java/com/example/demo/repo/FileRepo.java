@@ -7,6 +7,8 @@ import java.util.Optional;
 
 public interface FileRepo extends JpaRepository<FileEntity, Long> {
 
+    Optional<FileEntity> findByAccountId(Integer accountId);
+
     Optional<FileEntity> findTopByAccountIdOrderByCreatedDateDesc(Integer accountId);
 
 }

@@ -135,6 +135,9 @@ public class AccountController {
             if (newAccountData.getNation() != null) {
                 updatedAccountData.setNation(newAccountData.getNation());
             }
+            if (newAccountData.getReligion() != null) {
+                updatedAccountData.setReligion(newAccountData.getReligion());
+            }
             Account accountObj = accountsRepo.save(updatedAccountData);
             return new ResponseEntity<>(accountObj, HttpStatus.OK);
         }
@@ -229,6 +232,5 @@ public class AccountController {
         }
         return responseList;
     }
-
 
 }

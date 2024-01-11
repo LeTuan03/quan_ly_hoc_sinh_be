@@ -76,8 +76,19 @@ public class MemberStudentController {
             Set<Long> userIdSet = new HashSet<>(); // Sử dụng Set để lưu trữ các userId đã xuất hiện
 
             for (com.example.demo.entity.MemberStudent memberStudent : memberStudents) {
-                if (memberStudent.getProjectId() == null || memberStudent.getCode() == null) {
-                    ErrorMessage errorMessage = new ErrorMessage(Constants.ID_CLASS_AND_NAME_NOT_EMPTY);
+
+                if (memberStudent.getProjectId() == null) {
+                    ErrorMessage errorMessage = new ErrorMessage(Constants.ID_CLASS_NOT_EMPTY);
+                    return new ResponseEntity<>(errorMessage, HttpStatus.BAD_GATEWAY);
+                }
+
+                if (memberStudent.getUserId() == null) {
+                    ErrorMessage errorMessage = new ErrorMessage(Constants.NAME_NOT_EMPTY);
+                    return new ResponseEntity<>(errorMessage, HttpStatus.BAD_GATEWAY);
+                }
+
+                if (memberStudent.getCode() == null) {
+                    ErrorMessage errorMessage = new ErrorMessage(Constants.CODE_NOT_EMPTY);
                     return new ResponseEntity<>(errorMessage, HttpStatus.BAD_GATEWAY);
                 }
 
@@ -86,6 +97,7 @@ public class MemberStudentController {
                     ErrorMessage errorMessage = new ErrorMessage(Constants.STUDENT_IN_LIST);
                     return new ResponseEntity<>(errorMessage, HttpStatus.BAD_GATEWAY);
                 }
+
 
                 if (memberStudent.getId() != null) {
                     Optional<com.example.demo.entity.MemberStudent> existingTask = this.memberStudent.findById(memberStudent.getId());
@@ -113,6 +125,7 @@ public class MemberStudentController {
 
             return new ResponseEntity<>(savedMemberStudents, HttpStatus.OK);
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(new ErrorMessage(Constants.ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
