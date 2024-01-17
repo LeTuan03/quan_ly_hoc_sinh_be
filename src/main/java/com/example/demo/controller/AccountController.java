@@ -7,6 +7,7 @@ import com.example.demo.entity.Account;
 import com.example.demo.entity.ErrorMessage;
 import com.example.demo.repo.AccountRepo;
 import com.example.demo.repo.PeeRepo;
+//đánh dấu một dependency trong Spring để Container có thể tự động tiêm giá trị vào nó
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -4,6 +4,7 @@ import com.example.demo.config.Constants;
 import com.example.demo.entity.ErrorMessage;
 import com.example.demo.entity.LOP12;
 import com.example.demo.repo.LOP12Repo;
+//đánh dấu một dependency trong Spring để Container có thể tự động tiêm giá trị vào nó
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

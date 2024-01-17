@@ -23,7 +23,7 @@ public class Family {
     private Long id;
 
     @NotNull(message = Constants.ID_MUST_NOT_EMPTY)
-    private Integer accountId;
+    private Long accountId;
 
     @NotNull(message = Constants.USERNAME_EMPTY)
     @Size(min = 1, message = Constants.USERNAME_EMPTY)

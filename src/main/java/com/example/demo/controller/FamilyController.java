@@ -4,12 +4,15 @@ import com.example.demo.config.Constants;
 import com.example.demo.entity.ErrorMessage;
 import com.example.demo.entity.Family;
 import com.example.demo.repo.FamilyRepo;
+//đánh dấu một dependency trong Spring để Container có thể tự động tiêm giá trị vào nó
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+//ánh xạ các phương thức xử lý HTTP requests với các đường dẫn cụ thể
 import org.springframework.web.bind.annotation.*;
-
+//Nó là một danh sách có thể thay đổi kích thước (resizable), cho phép thêm hoặc xóa các phần tử một cách linh hoạt.
 import java.util.ArrayList;
+//phần tử có thứ tự và có thể chứa các phần tử trùng lặp
 import java.util.List;
 import java.util.Optional;
 
@@ -58,6 +61,7 @@ public class FamilyController {
     public ResponseEntity<Family> updateAccountById(@PathVariable Long id, @RequestBody Family newAccountData) {
         Optional<Family> oldAccountData = familyRepo.findById(id);
 
+        // Kiểm tra xem oldAccountData có chứa giá trị hay không
         if (oldAccountData.isPresent()) {
             Family updatedAccountData = oldAccountData.get();
             if (newAccountData.getFullName() != null) {
