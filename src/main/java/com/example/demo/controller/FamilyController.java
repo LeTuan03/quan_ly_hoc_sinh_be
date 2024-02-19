@@ -4,7 +4,7 @@ import com.example.demo.config.Constants;
 import com.example.demo.entity.ErrorMessage;
 import com.example.demo.entity.Family;
 import com.example.demo.repo.FamilyRepo;
-//đánh dấu một dependency trong Spring để Container có thể tự động tiêm giá trị vào nó
+//tự động liên kết các phụ thuộc của các đối tượng mà nó cần sử dụng
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 //phần tử có thứ tự và có thể chứa các phần tử trùng lặp
 import java.util.List;
+// kiểm tra xem giá trị đó có tồn tại hay không
 import java.util.Optional;
 
 @RestController
@@ -53,7 +54,7 @@ public class FamilyController {
             return new ResponseEntity<>(familyList, HttpStatus.OK);
         } catch (Exception ex) {
             ex.printStackTrace();
-            return new ResponseEntity<>( HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>( HttpStatus.NO_CONTENT);
         }
     }
 
@@ -104,20 +105,25 @@ public class FamilyController {
     }
 
     @PostMapping("/adds")
-    public ResponseEntity<?> addTasks(@RequestBody List<Family> memberStudents) {
+    public ResponseEntity<?> addMemberStudents(@RequestBody List<Family> memberStudents) {
+        // Danh sách để lưu trữ các đối tượng Family
         List<Family> savedMemberStudents = new ArrayList<>();
 
         try {
+            // Duyệt qua từng đối tượng Family trong danh sách
             for (Family memberStudent : memberStudents) {
-                if (memberStudent.getAccountId() == null || memberStudent.getFullName() == null) {
+                // Kiểm tra trường bắt buộc: id của học sinh
+                if (memberStudent.getAccountId() == null) {
                     ErrorMessage errorMessage = new ErrorMessage(Constants.ID_AND_NAME_NOT_EMPTY);
                     return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
                 }
-
+                // Kiểm tra sự tồn tại của ID
                 if (memberStudent.getId() != null) {
+                    // Kiểm tra xem đối tượng có tồn tại trong cơ sở dữ liệu hay không
                     Optional<Family> existingTask = familyRepo.findById(memberStudent.getId());
 
                     if (existingTask.isPresent()) {
+                        // Nếu đối tượng đã tồn tại, cập nhật thông tin từ đối tượng mới
                         Family updatedMemberStudent = existingTask.get();
                         if (updatedMemberStudent.getFullName() != null) {
                             updatedMemberStudent.setFullName(memberStudent.getFullName());
@@ -127,9 +133,6 @@ public class FamilyController {
                         }
                         if (memberStudent.getPhone() != null) {
                             updatedMemberStudent.setPhone(memberStudent.getPhone());
-                        }
-                        if (memberStudent.getAddress() != null) {
-                            updatedMemberStudent.setAddress(memberStudent.getAddress());
                         }
                         if (memberStudent.getBirth() != null) {
                             updatedMemberStudent.setBirth(memberStudent.getBirth());
@@ -150,10 +153,10 @@ public class FamilyController {
                         continue;
                     }
                 }
-
+                // Nếu ID không tồn tại, thêm đối tượng mới vào cơ sở dữ liệu và danh sách lưu trữ
                 savedMemberStudents.add(familyRepo.save(memberStudent));
             }
-
+            // Trả về danh sách các đối tượng Family đã được lưu và mã trạng thái HTTP 200 OK
             return new ResponseEntity<>(savedMemberStudents, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(new ErrorMessage(Constants.ERROR), HttpStatus.INTERNAL_SERVER_ERROR);

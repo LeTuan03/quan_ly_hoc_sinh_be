@@ -25,8 +25,6 @@ public class Family {
     @NotNull(message = Constants.ID_MUST_NOT_EMPTY)
     private Long accountId;
 
-    @NotNull(message = Constants.USERNAME_EMPTY)
-    @Size(min = 1, message = Constants.USERNAME_EMPTY)
     private String fullName;
 
     private String email;
